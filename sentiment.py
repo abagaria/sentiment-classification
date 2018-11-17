@@ -193,7 +193,7 @@ def evaluate(hp, embedding_lookup):
 
     data_size = len(dataset)
 
-    confusion = np.zeros((2,2)) # TODO fill out this confusion matrix
+    confusion = torch.zeros((2,2)) # TODO fill out this confusion matrix
     for (vectorized_seq, seq_len), label in tqdm(dataloader, ascii=True):
         vectorized_seq = vectorized_seq
         seq_len = seq_len.to(DEV)
@@ -203,11 +203,12 @@ def evaluate(hp, embedding_lookup):
             logits = model(vectorized_seq, seq_len)
             # TODO obtain a sentiment class prediction from output
             predicted_labels = torch.argmax(logits, dim=1)
-            assert sum(label.numpy().shape) == 1 and sum(predicted_labels.numpy().shape) == 1, "Expected one label"
-            confusion[label.numpy()[0]][predicted_labels.numpy()[0]] += 1
+            # assert sum(label.numpy().shape) == 1 and sum(predicted_labels.numpy().shape) == 1, "Expected one label"
+            # confusion[label.numpy()[0]][predicted_labels.numpy()[0]] += 1
+            confusion[label, predicted_labels] += 1
 
-    accuracy = np.trace(confusion) / data_size # TODO
-    print("Sentiment Classification Accuracy of {}%".format(accuracy))
+    accuracy = np.trace(confusion.numpy()) * 100. / data_size # TODO
+    print("Sentiment Classification Accuracy of {:.2f}%".format(accuracy))
     print("Confusion matrix:")
     print(confusion)
 
@@ -255,4 +256,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     DEV = torch.device(args.device)
+
+    print("######################### Using {} ############################".format(DEV))
+
     main()

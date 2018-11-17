@@ -85,11 +85,11 @@ class Glove(nn.Module):
 
     def _get_gloveids(self, batch):
         # https://pytorch.org/docs/stable/tensors.html#torch.Tensor.apply_
-        return batch.apply_(self._lookup_glove).to(self._dev)
+        return batch.apply_(self._lookup_glove)
 
     def forward(self, batch):
-        batch = batch.to(self._dev)
-        return self.embeddings(self._get_gloveids(batch))
+        glove_ids = self._get_gloveids(batch).to(self._dev)
+        return self.embeddings(glove_ids)
 
 class ElmoGlove(nn.Module):
     def __init__(self, data_dir, idx2word, device=torch.device('cpu')):

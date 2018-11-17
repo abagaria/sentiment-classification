@@ -17,11 +17,11 @@ class HParams:
 
 class ElmoHParams(HParams):
     def __init__(self):
-        super(ElmoHParams, self).__init__(bs=64, lr=1e-4, ne=5, hs=1024)
+        super(ElmoHParams, self).__init__(bs=64, lr=1e-4, ne=5, hs=2048)
 
 class GloveHParams(HParams):
     def __init__(self):
-        super(GloveHParams, self).__init__(bs=64, lr=1e-4, ne=15, hs=1024)
+        super(GloveHParams, self).__init__(bs=64, lr=1e-4, ne=15, hs=2048)
 
 class ElmoGloveHParams(HParams):
     def __init__(self):
@@ -29,5 +29,4 @@ class ElmoGloveHParams(HParams):
 
 class RandEmbedHParams(HParams):
     def __init__(self, embed_size):
-        super(RandEmbedHParams, self).__init__(bs=64, lr=1e-4, ne=10, hs=embed_size)
-
+        super(RandEmbedHParams, self).__init__(bs=64, lr=1e-4, ne=150, hs=embed_size)
